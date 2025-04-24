@@ -1,15 +1,20 @@
+import { Land } from "./Land";
+
 export class Mower {
     instructions: string;
     x: number;
     y: number;
     direction: string;
+    land: Land;
 
-    constructor(initialPosition: string, instructions: string) {
+    constructor(land: Land, initialPosition: string, instructions: string) {
+        this.land = land;
         this.instructions = instructions;
-        const [initialX, initialY, initialDirection] = initialPosition.split(' ');
+        const splittedInitialPosition = initialPosition.split(' ');
+        const [initialX, initialY] = splittedInitialPosition[0].split('');
         this.x = parseInt(initialX);
         this.y = parseInt(initialY);
-        this.direction = initialDirection;
+        this.direction = splittedInitialPosition[1];
     }
 
     move(instruction: string): void {
