@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { TheGodlyGardener } from "../Domain/Mowing/TheGodlyGardener";
 
 describe('The Godly Gardener basic tests', () => {
@@ -56,6 +58,26 @@ describe('The Real life test', () => {
             '22 N',
             'FFRLLRFRLF',
         ]);
+
+        expect(gardener.mowers.length).toBe(2);
+
+        gardener.handleLand();
+
+        const mower1 = gardener.mowers[0];
+        const mower2 = gardener.mowers[1];
+
+        expect(mower1.getPosition()).toBe('13 W');
+        expect(mower2.getPosition()).toBe('25 N');
+    });
+});
+
+describe('Test with real file', () => {
+    it('should load file', () => {
+        const filePath = path.join(__dirname, '../data.txt');
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const fileLines = content.split('\n');
+
+        const gardener = new TheGodlyGardener(fileLines);
 
         expect(gardener.mowers.length).toBe(2);
 
