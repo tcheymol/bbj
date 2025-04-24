@@ -8,8 +8,6 @@ export class TheGodlyGardener {
         const land = this.createLand(landData.shift());
         this.mowers = [];
         this.createMowers(land, landData);
-
-        this.handleLand();
     }
 
     createLand(landData: Array<any>): Land {
