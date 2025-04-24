@@ -5,9 +5,13 @@ export class Land {
     ySize: number;
     mowers: Mower[];
 
-    constructor(xSize: number, ySize: number, mowers: Mower[]) {
+    constructor(xSize: number, ySize: number) {
         this.xSize = xSize;
         this.ySize = ySize;
-        this.mowers = mowers;
+        this.mowers = [];
+    }
+
+    addMower(mower: Mower): void {
+        this.mowers.push(mower);
     }
 }

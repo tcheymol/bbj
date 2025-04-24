@@ -2,11 +2,14 @@ export class Mower {
     instructions: string;
     x: number;
     y: number;
+    direction: string;
 
-    constructor(instructions: string, initialX: number, initialY: number) {
+    constructor(initialPosition: string, instructions: string) {
         this.instructions = instructions;
-        this.x = initialX;
-        this.y = initialY;
+        const [initialX, initialY, initialDirection] = initialPosition.split(' ');
+        this.x = parseInt(initialX);
+        this.y = parseInt(initialY);
+        this.direction = initialDirection;
     }
 
     move(instruction: string): void {
@@ -15,11 +18,11 @@ export class Mower {
     mow():void {
     }
 
-    getFinalPosition(): string {
-        return `${this.x},${this.y}`;
+    getPosition(): string {
+        return `${this.x}${this.y} ${this.direction}`;
     }
 
-    printFinalPosition(): void {
-        console.log(`Final position: ${this.getFinalPosition()}`);
+    printPosition(): void {
+        console.log(`Final position: ${this.getPosition()}`);
     }
 }
