@@ -39,8 +39,32 @@ describe('The Godly Gardener basic tests', () => {
 
     it('should turn right and advance', () => {
         const gardener = new TheGodlyGardener(['55', '00 N', 'RF']);
+        gardener.handleLand();
+
         const mower = gardener.mowers[0];
 
         expect(mower.getPosition()).toBe('10 E');
+    });
+});
+
+describe('The Real life test', () => {
+    it('should go through the whole land', () => {
+        const gardener = new TheGodlyGardener([
+            '55',
+            '44 S',
+            'LFRRFFLFRFF',
+            '22 N',
+            'FFRLLRFRLF',
+        ]);
+
+        expect(gardener.mowers.length).toBe(2);
+
+        gardener.handleLand();
+
+        const mower1 = gardener.mowers[0];
+        const mower2 = gardener.mowers[1];
+
+        expect(mower1.getPosition()).toBe('13 W');
+        expect(mower2.getPosition()).toBe('25 N');
     });
 });
