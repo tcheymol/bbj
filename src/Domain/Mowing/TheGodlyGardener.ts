@@ -25,7 +25,7 @@ export class TheGodlyGardener {
             const mowerInitialPosition = mowers.shift();
             const mowerInstructions = mowers.shift();
 
-            mowers.push(new Mower(land, mowerInitialPosition, mowerInstructions));
+            this.mowers.push(new Mower(land, mowerInitialPosition, mowerInstructions));
         }
     }
 
