@@ -10,10 +10,10 @@ export class TheGodlyGardener {
         this.createMowers(land, landData);
     }
 
-    createLand(landData: Array<any>): Land {
-        const land = landData[0].split('');
+    createLand(landData: string): Land {
+        const land = landData.split('');
 
-        return new Land(land[0], land[1]);
+        return new Land(parseInt(land[0]), parseInt(land[1]));
     }
 
     createMowers(land: Land, mowers: Array<any>): void {

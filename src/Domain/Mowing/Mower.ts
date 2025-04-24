@@ -99,11 +99,11 @@ export class Mower {
     preventOverflow(): void {
         if (this.x < 0) {
             this.x = 0;
-        } else if (this.x > this.land.xSize) {
+        } else if (this.x >= this.land.xSize) {
             this.x = this.land.xSize;
         } else if (this.y < 0) {
             this.y = 0;
-        } else if (this.y > this.land.ySize) {
+        } else if (this.y >= this.land.ySize) {
             this.y = this.land.ySize;
         }
     };
