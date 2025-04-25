@@ -2,7 +2,6 @@ import React from "react";
 import { LandContext, MowersContext } from "../App";
 import { Land } from "../Domain/Mowing/Land";
 import { Mower } from "../Domain/Mowing/Mower";
-import { get } from "http";
 
 const isMowed = (land: Land, x: number, y: number): boolean =>
   land.mowedPoints.some((point) => point.x === x && point.y === y);
@@ -48,7 +47,7 @@ const getImagePath = (
   return `${process.env.PUBLIC_URL}${isMowed(land, x, y) ? "/short.png" : "/long.png"}`;
 };
 
-export default function ({ x, y }: { x: number; y: number }) {
+export default function Square({ x, y }: { x: number; y: number }) {
   const land = React.useContext(LandContext);
   const mowers = React.useContext(MowersContext);
   const imagePath = getImagePath(land, mowers, x, y);

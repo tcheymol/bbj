@@ -21,17 +21,17 @@ function App() {
   const [mowers, setMowers] = React.useState<Mower[]>(initialMowers);
   const [land, setLand] = React.useState<Land>(initialLand);
 
-  const handleLand = () => {
+  const handleLand = React.useCallback(() => {
     gardener.handleLand();
     setTimeout(() => {
       setMowers(gardener.mowers);
       setLand(gardener.getLand());
     }, 3000);
-  };
+  }, [gardener]);
 
   React.useEffect(() => {
     handleLand();
-  }, []);
+  }, [handleLand]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;

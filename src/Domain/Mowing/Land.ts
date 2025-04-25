@@ -1,5 +1,3 @@
-import { Mower } from "./Mower";
-
 export class Land {
   xSize: number;
   ySize: number;
