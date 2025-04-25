@@ -2,27 +2,35 @@ import { FileParser } from "./FileParser";
 
 export class FileLoader {
     reader: FileReader;
+    parser: FileParser;
     fileContent: Array<any>;
 
-    constructor() {
+    constructor(parser: FileParser) {
         this.reader = new FileReader();
+        this.parser = parser;
         this.fileContent = [];
-        
-        this.reader.onload = (event) => {
-            if (event.target) {
-                const text = event.target.result?.toString(); 
-                if (text && text.length > 0) {
-                    this.fileContent = text.split('/\r?\n/');
-                }
+    }
+
+    async read(file: File): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if (file && file.type === 'text/plain') {
+                this.reader.onload = (event) => {
+                    if (!event.target) return;
+                    const text = event.target.result?.toString();
+                    if (!text) return;
+                    const linesArray = text.split(/\r?\n/); // prend en compte \n et \r\n
+                    this.fileContent = linesArray;
+
+                    resolve();
+                };
+
+                this.reader.onerror = reject;
+                this.reader.readAsText(file);
             }
-        };
+        });
     }
 
-    read(file: File): string[] {
-        return [];
-    }
-
-    parse(parser: FileParser): Array<any> {
-        return parser.parse(this.fileContent);
+    parse(): any {
+        return this.parser.parse(this.fileContent);
     }
 }

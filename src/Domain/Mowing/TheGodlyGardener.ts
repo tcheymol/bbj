@@ -12,17 +12,20 @@ export class TheGodlyGardener {
     }
 
     getLand(): Land {
+        if (this.mowers.length === 0) return new Land(0, 0);
+
         return this.mowers[0].land;
     }
 
-    createLand(landData: string): Land {
+    createLand(landData: string|undefined): Land {
+        if (!landData) return new Land(0,0);
         const land = landData.split('');
 
         return new Land(parseInt(land[0]), parseInt(land[1]));
     }
 
     createMowers(land: Land, mowers: Array<any>): void {
-        const mowersCount = mowers.length / 2;
+        const mowersCount = Math.floor(mowers.length / 2);
 
         for (let i = 0; i < mowersCount; i++) {
             const mowerInitialPosition = mowers.shift();
