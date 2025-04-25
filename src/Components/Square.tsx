@@ -2,18 +2,17 @@ import React from 'react';
 import { LandContext, MowersContext } from '../App';
 import { Land } from '../Domain/Mowing/Land';
 import { Mower } from '../Domain/Mowing/Mower';
+import { get } from 'http';
 
-const isMowed = (land:  Land, x: number, y: number): boolean => {
-    return land.mowedPoints.some(point => point.x === x && point.y === y);
-}
+const isMowed = (land:  Land, x: number, y: number): boolean =>
+    land.mowedPoints.some(point => point.x === x && point.y === y);
 
-const hasMower = (mowers: Array<Mower>, x: number, y: number): boolean => {
-    return getMower(mowers, x, y) !== null;
-}
 
-const getMower = (mowers: Array<Mower>, x: number, y: number): Mower|null => {
-    return mowers.find(mower => mower.getCoordinates() === `${x}${y}`) ?? null;
-}
+const hasMower = (mowers: Array<Mower>, x: number, y: number): boolean =>
+    getMower(mowers, x, y) !== null;
+
+const getMower = (mowers: Array<Mower>, x: number, y: number): Mower|null =>
+    mowers.find(mower => mower.getCoordinates() === `${x}${y}`) ?? null;
 
 const getMowerRotation = (mowers: Array<Mower>, x: number, y: number): string => {
     const mower = getMower(mowers, x, y);
