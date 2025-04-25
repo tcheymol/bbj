@@ -49,12 +49,20 @@ function App() {
               <h3 style={{ marginRight: 16 }}>
                 Upload your own file here to mow like a boss
               </h3>
-              <input type="file" accept=".txt" onChange={handleFileChange} />
+              <input
+                type="file"
+                accept=".txt"
+                onChange={handleFileChange}
+                data-testid="upload-land"
+              />
               <div className="mt-4 whitespace-pre-wrap border p-2 rounded bg-gray-100"></div>
             </div>
             <div style={{ display: "flex", alignItems: "center" }}>
               <div>Mowers :</div>
-              <div style={{ marginLeft: 16, marginRight: 16 }}>
+              <div
+                style={{ marginLeft: 16, marginRight: 16 }}
+                data-testid="mower-info"
+              >
                 {mowers.map((mower) => (
                   <div key={mower.getCoordinates()}>
                     {mower.getPosition()}
@@ -64,7 +72,11 @@ function App() {
                   </div>
                 ))}
               </div>
-              <button className="App-button" onClick={() => handleLand()}>
+              <button
+                className="App-button"
+                onClick={() => handleLand()}
+                data-testid="trigger-mowing"
+              >
                 Mowwwww :
               </button>
             </div>
