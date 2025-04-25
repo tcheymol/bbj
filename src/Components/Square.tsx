@@ -8,7 +8,29 @@ const isMowed = (land:  Land, x: number, y: number): boolean => {
 }
 
 const hasMower = (mowers: Array<Mower>, x: number, y: number): boolean => {
-    return mowers.some(mower => mower.getCoordinates() === `${x}${y}`);
+    return getMower(mowers, x, y) !== null;
+}
+
+const getMower = (mowers: Array<Mower>, x: number, y: number): Mower|null => {
+    return mowers.find(mower => mower.getCoordinates() === `${x}${y}`) ?? null;
+}
+
+const getMowerRotation = (mowers: Array<Mower>, x: number, y: number): string => {
+    const mower = getMower(mowers, x, y);
+    if (mower === null) return '0';
+
+    switch (mower.direction) {
+        case 'W':
+            return '0';
+        case 'N':
+            return '90';
+        case 'E':
+            return '180';
+        case 'S':
+            return '270';
+        default:
+            return '0';
+    }
 }
 
 const getImagePath = (land:  Land, mowers: Array<Mower>, x: number, y: number): string => {
@@ -24,6 +46,7 @@ export default function({x, y}: {x: number, y: number}) {
     const land = React.useContext(LandContext);
     const mowers = React.useContext(MowersContext);
     const imagePath = getImagePath(land, mowers, x, y);
+    const mowerRotation = getMowerRotation(mowers, x, y);
 
     return (
         <div style={{
@@ -36,6 +59,7 @@ export default function({x, y}: {x: number, y: number}) {
            width: '50px',
            height: '50px',
            objectFit: 'cover',
+           transform: `rotate(${mowerRotation}deg)`,
        }}
        />
     </div>

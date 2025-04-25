@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# Welcome to the 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the Godly Gardener, start Mowing the land !
+
+![Screenshot](./public/screenshot.png)
 
 ## Available Scripts
 

@@ -56,8 +56,8 @@ function App() {
             Welcome to the Godly Gardener, start Mowing the land !
           </h3>
           <img src={logo} className="App-logo" alt="logo" />
-          <div>
-            <h3>
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <h3 style={{marginRight: 16}}>
               Upload your own file here to mow like a boss
             </h3>
             <input type="file" accept=".txt" onChange={handleFileChange} />
