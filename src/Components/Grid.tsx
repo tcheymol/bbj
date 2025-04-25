@@ -3,7 +3,9 @@ import Row from "./Row";
 import { LandContext } from "../App";
 
 export default function Grid() {
-  const { xSize, ySize } = React.useContext(LandContext);
+  const { land } = React.useContext(LandContext);
+  if (land === null) return null;
+  const { xSize, ySize } = land;
   const maxHeight = ySize;
 
   return (

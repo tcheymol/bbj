@@ -3,16 +3,11 @@ import { Mower } from "../Mowing/Mower";
 import { FileParser } from "./FileParser";
 
 export class LawnFileParser implements FileParser {
-  parse(rows: string[]): { land: Land; mowers: Array<Mower> } {
+  parse(rows: string[]): Array<Mower> {
     const landRow = rows.shift();
     const land = this.createLand(landRow);
 
-    const mowers = this.createMowers(land, rows);
-
-    return {
-      land: land,
-      mowers: mowers,
-    };
+    return this.createMowers(land, rows);
   }
 
   createLand(landData: string | undefined): Land {

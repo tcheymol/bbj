@@ -3,7 +3,8 @@ import { LandContext, MowersContext } from "../App";
 import { Land } from "../Domain/Mowing/Land";
 import { Mower } from "../Domain/Mowing/Mower";
 
-const isMowed = (land: Land, x: number, y: number): boolean =>
+const isMowed = (land: Land | null, x: number, y: number): boolean =>
+  land !== null &&
   land.mowedPoints.some((point) => point.x === x && point.y === y);
 
 const hasMower = (mowers: Array<Mower>, x: number, y: number): boolean =>
@@ -21,13 +22,13 @@ const getMowerRotation = (
   if (mower === null) return "0";
 
   switch (mower.direction) {
-    case "W":
-      return "0";
     case "N":
-      return "90";
+      return "0";
     case "E":
-      return "180";
+      return "90";
     case "S":
+      return "180";
+    case "W":
       return "270";
     default:
       return "0";
@@ -35,7 +36,7 @@ const getMowerRotation = (
 };
 
 const getImagePath = (
-  land: Land,
+  land: Land | null,
   mowers: Array<Mower>,
   x: number,
   y: number,
@@ -48,8 +49,8 @@ const getImagePath = (
 };
 
 export default function Square({ x, y }: { x: number; y: number }) {
-  const land = React.useContext(LandContext);
-  const mowers = React.useContext(MowersContext);
+  const { land } = React.useContext(LandContext);
+  const { mowers } = React.useContext(MowersContext);
   const imagePath = getImagePath(land, mowers, x, y);
   const mowerRotation = getMowerRotation(mowers, x, y);
 

@@ -1,10 +1,13 @@
 import fs from "fs";
 import path from "path";
 import { TheGodlyGardener } from "../Domain/Mowing/TheGodlyGardener";
+import { LawnFileParser } from "../Domain/FileHandling/LawnFileParser";
+
+const parser = new LawnFileParser();
 
 describe("The Godly Gardener basic tests", () => {
   it("should go north", () => {
-    const gardener = new TheGodlyGardener(["55", "00 N", "F"]);
+    const gardener = new TheGodlyGardener(parser.parse(["55", "00 N", "F"]));
     gardener.handleLand();
 
     const mower = gardener.mowers[0];
@@ -13,7 +16,7 @@ describe("The Godly Gardener basic tests", () => {
   });
 
   it("should turn left", () => {
-    const gardener = new TheGodlyGardener(["55", "00 N", "L"]);
+    const gardener = new TheGodlyGardener(parser.parse(["55", "00 N", "L"]));
     gardener.handleLand();
 
     const mower = gardener.mowers[0];
@@ -22,7 +25,7 @@ describe("The Godly Gardener basic tests", () => {
   });
 
   it("should turn right", () => {
-    const gardener = new TheGodlyGardener(["55", "00 N", "R"]);
+    const gardener = new TheGodlyGardener(parser.parse(["55", "00 N", "R"]));
     gardener.handleLand();
 
     const mower = gardener.mowers[0];
@@ -31,7 +34,7 @@ describe("The Godly Gardener basic tests", () => {
   });
 
   it("should turn back and fail exitting the land", () => {
-    const gardener = new TheGodlyGardener(["55", "00 N", "RRF"]);
+    const gardener = new TheGodlyGardener(parser.parse(["55", "00 N", "RRF"]));
     gardener.handleLand();
 
     const mower = gardener.mowers[0];
@@ -40,7 +43,7 @@ describe("The Godly Gardener basic tests", () => {
   });
 
   it("should turn right and advance", () => {
-    const gardener = new TheGodlyGardener(["55", "00 N", "RF"]);
+    const gardener = new TheGodlyGardener(parser.parse(["55", "00 N", "RF"]));
     gardener.handleLand();
 
     const mower = gardener.mowers[0];
@@ -51,13 +54,9 @@ describe("The Godly Gardener basic tests", () => {
 
 describe("The Real life test", () => {
   it("should go through the whole land", () => {
-    const gardener = new TheGodlyGardener([
-      "55",
-      "44 S",
-      "LFRRFFLFRFF",
-      "22 N",
-      "FFRLLRFRLF",
-    ]);
+    const gardener = new TheGodlyGardener(
+      parser.parse(["55", "44 S", "LFRRFFLFRFF)", "22 N", "FFRLLRFRLF"]),
+    );
 
     expect(gardener.mowers.length).toBe(2);
 
@@ -77,7 +76,7 @@ describe("Test with real file", () => {
     const content = fs.readFileSync(filePath, "utf-8");
     const fileLines = content.split("\n");
 
-    const gardener = new TheGodlyGardener(fileLines);
+    const gardener = new TheGodlyGardener(parser.parse(fileLines));
 
     expect(gardener.mowers.length).toBe(2);
 

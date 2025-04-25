@@ -1,21 +1,14 @@
-import { LawnFileParser } from "../FileHandling/LawnFileParser";
-import { Land } from "./Land";
 import { Mower } from "./Mower";
 
 export class TheGodlyGardener {
   mowers: Array<Mower>;
-  land: Land;
 
-  constructor(landData: Array<any>) {
-    const { land, mowers } = new LawnFileParser().parse(landData);
-    this.land = land;
+  constructor(mowers: Array<Mower>) {
     this.mowers = mowers;
   }
 
-  getLand(): Land {
-    if (this.mowers.length === 0) return new Land(0, 0);
-
-    return this.mowers[0].land;
+  getLand() {
+    return this.mowers && this.mowers.length > 0 ? this.mowers[0].land : null;
   }
 
   handleLand() {

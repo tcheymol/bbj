@@ -8,44 +8,39 @@ import { Mower } from "./Domain/Mowing/Mower";
 import { FileLoader } from "./Domain/FileHandling/FileLoader";
 import { LawnFileParser } from "./Domain/FileHandling/LawnFileParser";
 
-export const LandContext = React.createContext<Land>(new Land(0, 0));
-export const MowersContext = React.createContext<Array<Mower>>([]);
+export const LandContext = React.createContext<{
+  land: Land | null;
+  setLand: (land: Land) => void;
+}>({ land: null, setLand: () => {} });
+export const MowersContext = React.createContext<{
+  mowers: Array<Mower>;
+  setMowers: (mowers: Array<Mower>) => void;
+}>({ mowers: [], setMowers: () => {} });
 
 function App() {
-  const initialData = ["55", "44 S", "LFRRFFLFRFF", "22 N", "FFRLLRFRLF"];
-  const gardener = new TheGodlyGardener(initialData);
-  const initialMowers = gardener.mowers;
-  const initialLand = gardener.getLand();
-  const [mowers, setMowers] = React.useState<Mower[]>(initialMowers);
-  const [land, setLand] = React.useState<Land>(initialLand);
+  const [mowers, setMowers] = React.useState<Mower[]>([]);
+  const [land, setLand] = React.useState<Land | null>(null);
 
-  const handleLand = React.useCallback(() => {
-    gardener.handleLand();
-    setTimeout(() => {
-      setMowers(gardener.mowers);
-      setLand(gardener.getLand());
-    }, 2000);
-  }, [gardener]);
-
-  React.useEffect(() => {
-    handleLand();
-  }, [handleLand]);
+  const handleLand = () => {
+    const gardener = new TheGodlyGardener(mowers);
+    mowers.forEach((mower) => mower.mow());
+    setMowers([...gardener.mowers]);
+    setLand(gardener.getLand());
+  };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const fileLoader = new FileLoader(new LawnFileParser());
     await fileLoader.read(e.target.files[0]);
-    const { mowers, land } = fileLoader.parse();
 
-    setMowers(mowers);
-    setLand(land);
-
-    handleLand();
+    const gardener = new TheGodlyGardener(fileLoader.parse());
+    setLand(gardener.getLand());
+    setMowers([...gardener.mowers]);
   };
 
   return (
-    <LandContext.Provider value={land}>
-      <MowersContext.Provider value={mowers}>
+    <LandContext.Provider value={{ land, setLand }}>
+      <MowersContext.Provider value={{ mowers, setMowers }}>
         <div className="App">
           <header className="App-header">
             <h3>Welcome to the Godly Gardener, start Mowing the land !</h3>
@@ -57,11 +52,21 @@ function App() {
               <input type="file" accept=".txt" onChange={handleFileChange} />
               <div className="mt-4 whitespace-pre-wrap border p-2 rounded bg-gray-100"></div>
             </div>
-            <div>
-              Mowers positions :
-              {mowers.map((mower) => (
-                <div key={mower.getCoordinates()}>{mower.getPosition()}</div>
-              ))}
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div>Mowers :</div>
+              <div style={{ marginLeft: 16, marginRight: 16 }}>
+                {mowers.map((mower) => (
+                  <div key={mower.getCoordinates()}>
+                    {mower.getPosition()}
+                    <br />
+                    {mower.instructions}
+                    <hr />
+                  </div>
+                ))}
+              </div>
+              <button className="App-button" onClick={() => handleLand()}>
+                Mowwwww :
+              </button>
             </div>
             <Grid />
           </header>
