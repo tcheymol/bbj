@@ -14,8 +14,6 @@ export const MowersContext = React.createContext<Array<Mower>>([]);
 function App() {
   const initialData = ["55", "44 S", "LFRRFFLFRFF", "22 N", "FFRLLRFRLF"];
   const gardener = new TheGodlyGardener(initialData);
-  const width = gardener.getLand().xSize;
-  const height = gardener.getLand().ySize;
   const initialMowers = gardener.mowers;
   const initialLand = gardener.getLand();
   const [mowers, setMowers] = React.useState<Mower[]>(initialMowers);
@@ -26,7 +24,7 @@ function App() {
     setTimeout(() => {
       setMowers(gardener.mowers);
       setLand(gardener.getLand());
-    }, 3000);
+    }, 2000);
   }, [gardener]);
 
   React.useEffect(() => {
@@ -65,7 +63,7 @@ function App() {
                 <div key={mower.getCoordinates()}>{mower.getPosition()}</div>
               ))}
             </div>
-            <Grid height={height} width={width} />
+            <Grid />
           </header>
         </div>
       </MowersContext.Provider>
