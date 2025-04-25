@@ -3,11 +3,16 @@ import { Mower } from "./Mower";
 
 export class TheGodlyGardener {
     mowers: Array<Mower>;
+    land: Land;
 
     constructor(landData: Array<any>) {
-        const land = this.createLand(landData.shift());
+        this.land = this.createLand(landData.shift());
         this.mowers = [];
-        this.createMowers(land, landData);
+        this.createMowers(this.land, landData);
+    }
+
+    getLand(): Land {
+        return this.mowers[0].land;
     }
 
     createLand(landData: string): Land {
@@ -30,5 +35,4 @@ export class TheGodlyGardener {
     handleLand() {
         this.mowers.forEach(mower => mower.mow());
     }
-
 }

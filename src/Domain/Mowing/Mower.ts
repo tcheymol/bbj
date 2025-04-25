@@ -18,6 +18,7 @@ export class Mower {
     }
 
     move(instruction: string): void {
+        this.mowCurrentPosition();
         switch (instruction) {
             case 'F':
                 this.advance();
@@ -29,14 +30,31 @@ export class Mower {
                 this.pivotRight();
                 break;
         }
+        this.mowCurrentPosition();
     }
 
     mow():void {
-        this.instructions.split('').forEach(instruction => this.move(instruction));
+        const instructions = this.instructions.split('');
+
+        while (instructions.length > 0) {
+            const instruction = instructions.shift();
+            this.instructions = instructions.join('');
+            if (instruction) {
+                this.move(instruction);
+            }
+        }
+    }
+
+    mowCurrentPosition():void {
+        this.land.mowPoint(this.x, this.y);
     }
 
     getPosition(): string {
         return `${this.x}${this.y} ${this.direction}`;
+    }
+
+    getCoordinates(): string {
+        return `${this.x}${this.y}`;
     }
 
     printPosition(): void {
