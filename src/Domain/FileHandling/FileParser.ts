@@ -1,3 +1,3 @@
 export interface FileParser {
-    parse(fileRows: string[]): object;
+  parse(fileRows: string[]): object;
 }

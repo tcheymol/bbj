@@ -1,5 +1,5 @@
-import React from 'react';
+import React from "react";
 
-test('Should always pass', () => {
-    expect(true).toBe(true);
+test("Should always pass", () => {
+  expect(true).toBe(true);
 });
