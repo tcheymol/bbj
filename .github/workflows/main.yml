@@ -1,10 +1,16 @@
-name: Run Tests
+name: Run Tests and deploy
 on:
   pull_request:
     branches:
       - main
+permissions:
+  id-token: write
+  pages: write
+
 jobs:
   test:
+    environment:
+      name: github-pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -17,3 +23,14 @@ jobs:
         run: npm install
       - name: Run Jest tests
         run: npm run test
+      - name: Build static site
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+      - name: Déploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          folder: build
